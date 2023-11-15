@@ -1,1 +1,5 @@
-# guy_tribe_term_server
+# Guy's Tribe Terminology Server (provisional)
+
+## To install
+
+> pip install 
