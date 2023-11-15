@@ -48,6 +48,10 @@ async def subsumes():
 async def validate_code():
     return { "Response" : "this is a validate code response"}
 
+@router.get("/{id}/$validate-code")
+async def validate_code(id):
+    return { "Response" : "this is a validate code response for id %s" % id}
+
 @router.get("/CodeSystem/$lookup")
 def look_up():
     return {"Hello": "World"}
