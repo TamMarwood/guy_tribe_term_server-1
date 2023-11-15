@@ -7,7 +7,9 @@ We use ```pipenv``` to setup the environment. See https://pipenv.pypa.io/en/late
 First, install ```pipenv```
 
 > pip install --user pipenv
+
 > pipenv install
+
 > pipenv shell
 
 ## To start the server
