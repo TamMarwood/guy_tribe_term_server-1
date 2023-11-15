@@ -11,3 +11,6 @@ First, install pipenv
 
 ## To start the server
 > uvicorn main:app --reload
+
+## To access the terminology service endpoints
+Open a browser and access [http://localhost:8000/docs#/](http://tbook.local:8000/docs#/)
