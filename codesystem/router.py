@@ -23,6 +23,10 @@ async def read_items():
 async def subsumes():
     return 'this is subsumes response'
 
+@router.get("/CodeSystem/$lookup")
+def look_up():
+    return {"Hello": "World"}    
+
 # @router.get("/{item_id}", response_model=Item)
 # async def read_item(item_id: int, item_service: ItemService = Depends()):
 #     return item_service.get_item(item_id)
