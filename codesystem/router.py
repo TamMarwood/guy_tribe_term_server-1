@@ -23,7 +23,19 @@ async def read_items():
 async def subsumes():
     return 'this is subsumes response'
 
-@router.get("/CodeSystem/$lookup")
+@router.get("/<id>/$subsumes")
+async def subsumes_by_id(id ):
+    return { "Response" : "this is a subsumes id response with id value %s" % id}
+
+@router.get("/$validate-code")
+async def validate_code():
+    return { "Response" : "this is a validate code response"}
+
+@router.get("/<id>/$validate-code")
+async def validate_code_by_id(id):
+    return { "Response" : "this is a validate code by id response with id value %s" % id}
+
+@router.get("/CodeSystem/$lookup")  
 def look_up():
     return {"Hello": "World"}    
 
