@@ -1,0 +1,2 @@
+resourceType,url,version,name,status,description
+CodeSystem,http://example.org/CodeSystem/mycodesystem,1.0,MyCodeSystem,active,Example CodeSystem for demonstration purposes

@@ -1,19 +1,23 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-class CodeSystemConcept(BaseModel):
+class CodeSystemConceptBase(BaseModel):
     code: str
     display: Optional[str]
     definition: Optional[str]
 
-class CodeSystem(BaseModel):
+class CodeSystemConcept(CodeSystemConceptBase):
+    class Config:
+        orm_mode = True
+
+class CodeSystemBase(BaseModel):
     resourceType: str = "CodeSystem"
     url: str
     version: Optional[str] = None
     name: str
     status: str = "active"
     description: Optional[str] = None
-    concept: List[CodeSystemConcept]
+    concept: List[CodeSystemConceptBase]
 
     class Config:
         schema_extra = {
@@ -43,3 +47,22 @@ class CodeSystem(BaseModel):
                 ]
             }
         }
+
+class CodeSystem(CodeSystemBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+
+
+# class CodeSystem(Base):
+#     __tablename__ = 'codesystem'
+
+#     id = Column(Integer, primary_key=True, index=True)
+#     url = Column(String, index=True)
+#     version = Column(String, nullable=True)
+#     name = Column(String)
+#     status = Column(String, default="active")
+#     description = Column(String, nullable=True)
+
+#     concepts = relationship("CodeSystemConcept", back_populates="codesystem")

@@ -1,7 +1,8 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 from fastapi import HTTPException, Depends
 from sqlalchemy.orm import Session
-from .models import CodeSystemConcept, CodeSystem
+from .schemas import CodeSystemConcept, CodeSystemConceptBase
+from .models import CodeSystemConcept as CodeSystemConceptDb
 from core.database import get_db
 
 class CodeSystemService:
@@ -12,6 +13,23 @@ class CodeSystemService:
     def get_items(self):
         return {'aaa':'sss'}
         # return self.db.query(Item).all()
+
+class CodeSystemConceptsService:
+    def __init__(self, db: Session = Depends(get_db)):
+        self.db = db
+
+    # def get_items(self) -> List[Item]:
+    def get_concepts(self) -> List[CodeSystemConcept]:
+        return self.db.query(CodeSystemConcept).all()
+    
+    def create_concept(self, concept: CodeSystemConceptBase) -> Union[CodeSystemConcept, None]:
+        db_concept = self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.code == concept.code).first()
+        if not db_concept:
+            db_concept = CodeSystemConceptDb(**concept.dict())
+            self.db.add(db_concept)
+            self.db.commit()
+            self.db.refresh(db_concept)
+            return db_concept
 
     # def create_item(self, item: ItemCreate) -> Item:
     #     db_item = Item(**item.dict())

@@ -10,7 +10,7 @@ First, install pipenv
 > source <your working directory>/guy_tribe_term_server/.venv/bin/activate
 
 ## To start the server
-> uvicorn main:app --reload
+> uvicorn main:app --reload --port 8000
 
 ## To access the terminology service endpoints
 Open a browser and access [http://localhost:8000/docs#/](http://tbook.local:8000/docs#/)
