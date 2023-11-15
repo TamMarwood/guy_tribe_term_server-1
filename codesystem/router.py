@@ -14,33 +14,31 @@ router = APIRouter()
 #     return code_system_service.get_items()
 
 @router.get("/", response_model=CodeSystemBase)
-async def root():
+async def root(concept_service: CodeSystemConceptsService = Depends()):
     response = CodeSystemBase(**CodeSystemBase.Config.schema_extra["example"])
+    # concepts = concept_service.get_concepts()
+    # concepts = [CodeSystemConceptBase(**concept.dict()) for concept in concepts]
+    # response.concept = concepts
     return response
 
-@router.get("/concepts", response_model=CodeSystemConceptBase)
-async def concepts():
-    concepts = CodeSystemConceptsService.get_concepts()
+@router.get("/concepts", response_model=list[CodeSystemConcept])
+async def concepts(concept_service: CodeSystemConceptsService = Depends()):
+    concepts = concept_service.get_concepts()
     return concepts
 @router.get("/concepts/create")
-async def concepts_create(db: Session = Depends(get_db)):
+async def concepts_create(concept_service: CodeSystemConceptsService = Depends()):
     import csv
     from pathlib import Path
     csv_path = Path('data/concepts.csv')
-    print(csv_path.absolute())
     concepts: list[CodeSystemConcept] = []
     with open(csv_path, 'r') as f:
         reader = csv.DictReader(f)
-        concept_service = CodeSystemConceptsService(db)
         for row in reader:
             concept = CodeSystemConceptBase(**row)
             codeSystemConcept = concept_service.create_concept(concept)
-            if not codeSystemConcept:
+            if codeSystemConcept:
                 concepts.append(codeSystemConcept)
     return concepts
-
-            
-    return {'status':'ok'}
 
 @router.get("/$subsumes")
 async def subsumes():

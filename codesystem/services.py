@@ -20,7 +20,7 @@ class CodeSystemConceptsService:
 
     # def get_items(self) -> List[Item]:
     def get_concepts(self) -> List[CodeSystemConcept]:
-        return self.db.query(CodeSystemConcept).all()
+        return self.db.query(CodeSystemConceptDb).all()
     
     def create_concept(self, concept: CodeSystemConceptBase) -> Union[CodeSystemConcept, None]:
         db_concept = self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.code == concept.code).first()
