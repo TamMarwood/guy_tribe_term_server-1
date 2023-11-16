@@ -40,9 +40,16 @@ async def concepts_create(concept_service: CodeSystemConceptsService = Depends()
                 concepts.append(codeSystemConcept)
     return concepts
 
-@router.get("/CodeSystem/$subsumes")
-async def subsumes():
-    return 'this is subsumes response'
+@router.get("/$subsumes")
+async def subsumes(URL: [base]/CodeSystem/$subsumescodeA=['concept_id1']&codeB=['concept_id2']):
+    subsume_relationship(codeA,codeB):
+        for i in relationship_table.iterrows:
+            if codeA = relationship_table['concept_id1'] & codeB = relationship_table['concept_id2']:
+                relationship = relationship_table['relationship_id']
+                return relationship_table['relationship_id']
+            else:
+                relationship = 'There is an error. Subsumption cannot be tested'
+    return print('this is subsumes response',relationship)
 
 @router.get("/$validate-code")
 def validate_code(url: str, codeSystem, code: str, version: str, display, coding: str, codeableConcept, date: str, abstract, displayLanguage: str):
