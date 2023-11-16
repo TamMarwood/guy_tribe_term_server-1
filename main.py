@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from codesystem.router import router as codesystem_router#, user_router
+from admin.router import router as admin_router
+from codesystem.router import router as codesystem_router
 # from valueset.router import router as valueset_router#, user_router
 from core.config import settings
 from core.database import engine, Base, get_db
@@ -10,6 +11,7 @@ app = FastAPI()
 
 # Include routers
 app.include_router(codesystem_router, prefix="/CodeSystem", tags=["CodeSystem"])
+app.include_router(admin_router, prefix="/admin", tags=["Admin"])
 # app.include_router(valueset_router, prefix="/ValueSet", tags=["ValueSet"])
 
 # if __name__ == "__main__":

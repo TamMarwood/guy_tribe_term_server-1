@@ -26,6 +26,9 @@ class CodeSystemConceptsService:
     def get_concept_by_code(self, code) -> Concept:
         return self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.concept_code == code).first()
 
+    def get_concept_by_id(self, id) -> Concept:
+        return self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.concept_id == id).first()
+
     def create_concept(self, concept: ConceptBase) -> Union[Concept, None]:
         db_concept = self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.concept_code == concept.concept_code).first()
         if not db_concept:

@@ -20,26 +20,6 @@ async def root(concept_service: CodeSystemConceptsService = Depends()):
 async def concepts(concept_service: CodeSystemConceptsService = Depends()):
     concepts = concept_service.get_concepts()
     return concepts
-async def concepts_create(concept_service: CodeSystemConceptsService = Depends()):
-    concept_rows = get_rows_from_csv('data/concepts.csv')
-    concepts: list[Concept] = []
-    for row in concept_rows:
-        concept_base = ConceptBase(**row)
-        codeSystemConcept = concept_service.create_concept(concept_base)
-        if codeSystemConcept:
-            concepts.append(codeSystemConcept)
-    return concepts
-@router.get("/concepts/recreate")
-async def concepts_recreate(concept_service: CodeSystemConceptsService = Depends()):
-    concept_rows = get_rows_from_csv('data/concepts.csv')
-    # Drop table and recreate
-    concept_service.recreate_concept_table()
-    concepts: list[Concept] = []
-    for row in concept_rows:
-        concept_base = ConceptBase(**row)
-        concepts.append(concept_base)
-        concept_service.create_concept(concept_base)
-    return concepts
 
 @router.get("/$subsumes")
 async def subsumes():
@@ -55,8 +35,7 @@ async def validate_code(id):
 
 @router.get("/$lookup")
 def look_up(code: str | None = None, system: str | None = None , version: str | None = None, coding: str | None = None, date: str  | None = None, displayLanguage: str | None = None, useSupplement: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
-    code_system_concept = concept_service.get_concept_by_code(code)
-    
+
     if (code is not None and system is None):
         return {
                     "resourceType": "OperationOutcome",
@@ -114,7 +93,46 @@ def look_up(code: str | None = None, system: str | None = None , version: str | 
             ]
         }
     
-
+@router.get("/{id}/$lookup")
+def look_up(id, concept_service: CodeSystemConceptsService = Depends()):
+    code_system_concept = concept_service.get_concept_by_id(id)    
+    if (code_system_concept is not None):
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "name",
+                    "valueString": code_system_concept.concept_name
+                },
+                {
+                    "name": "display",
+                    "valueString": code_system_concept.concept_class_id
+                },
+                {
+                    "name": "definition",
+                    "valueString": code_system_concept.domain_id
+                }
+            ]
+        }
+    else:
+        return {
+            "resourceType": "OperationOutcome",
+            "id": "exception",
+            "text": {
+                "status": "additional",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Code %s not found</div>" % code
+            },
+            "issue": [
+            {
+                "severity": "error",
+                "code": "not-found",
+                "details": {
+                    "text": "Code %s not found" % code
+                }
+            }
+            ]
+        }
+    
 @router.get("/$validate")
 async def validate():
     return { "Response" : "this is a validate response"}
