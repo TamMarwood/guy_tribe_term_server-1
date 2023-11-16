@@ -16,7 +16,7 @@ class Concept(DbModelToDictMixin,Base):
     valid_start_date = Column(String, nullable=True)
     valid_end_date = Column(String, nullable=True)
 
-class ConceptRelationship(Base):
+class ConceptRelationship(DbModelToDictMixin,Base):
     __tablename__ = 'concept_relationship'
     
     id = Column(Integer, primary_key=True, index=True)
