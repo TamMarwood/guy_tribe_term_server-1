@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class CodeSystemConceptBase(BaseModel):
     code: str
     display: Optional[str]
+    name: Optional[str]
     definition: Optional[str]
 
 class CodeSystemConcept(CodeSystemConceptBase):

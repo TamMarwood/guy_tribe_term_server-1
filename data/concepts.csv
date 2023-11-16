@@ -1,4 +1,4 @@
-code,display,definition
-12345,Diabetes,A group of metabolic diseases characterized by high blood sugar levels
-67890,Hypertension,"High blood pressure, a long-term medical condition"
-54321,Hyperlipidemia,Elevated levels of lipids (fats) in the blood
+code,display,name,definition
+12345,Diabetes,Diabetes Name,A group of metabolic diseases characterized by high blood sugar levels
+67890,Hypertension,Hypertension Name,"High blood pressure, a long-term medical condition"
+54321,Hyperlipidemia,Hyperlipidemia Name,Elevated levels of lipids (fats) in the blood

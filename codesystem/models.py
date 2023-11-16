@@ -9,4 +9,15 @@ class CodeSystemConcept(Base):
     code = Column(String, primary_key=True, index=True)
     # code = Column(String, index=True)
     display = Column(String, nullable=True)
+    name = Column(String, nullable = True)
+    definition = Column(String, nullable=True)
+
+class ConceptRelationship(Base):
+    __tablename__ = 'concept_relationship'
+    
+
+    # id = Column(Integer, primary_key=True, index=True)
+    code = Column(String, primary_key=True, index=True)
+    # code = Column(String, index=True)
+    display = Column(String, nullable=True)
     definition = Column(String, nullable=True)
