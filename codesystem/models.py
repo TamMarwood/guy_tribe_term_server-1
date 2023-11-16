@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from core.database import Base
+from core.util import DbModelToDictMixin
 
-class CodeSystemConcept(Base):
+class CodeSystemConcept(DbModelToDictMixin,Base):
     __tablename__ = 'concept'
 
     # id = Column(Integer, primary_key=True, index=True)
@@ -15,7 +16,6 @@ class CodeSystemConcept(Base):
 class ConceptRelationship(Base):
     __tablename__ = 'concept_relationship'
     
-
     # id = Column(Integer, primary_key=True, index=True)
     code = Column(String, primary_key=True, index=True)
     # code = Column(String, index=True)

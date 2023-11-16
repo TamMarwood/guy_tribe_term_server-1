@@ -52,7 +52,8 @@ async def subsumes(URL: [base]/CodeSystem/$subsumescodeA=['concept_id1']&codeB=[
     return print('this is subsumes response',relationship)
 
 @router.get("/$validate-code")
-def validate_code(url: str, codeSystem, code: str, version: str, display, coding: str, codeableConcept, date: str, abstract, displayLanguage: str):
+def validate_code(url: str | None = None, codeSystem: str | None = None, code: str | None = None, version: str | None = None, display: str | None = None, coding: str | None = None, codeableConcept: dict | None = None, date: str | None = None, abstract: bool | None = None, displayLanguage: str | None = None):
+    # TODO: assert that url or codeSystem is not none
     return { "Response" : "this is a validate code response"}
 
 @router.get("/{id}/$validate-code")
@@ -60,56 +61,95 @@ async def validate_code(id):
     return { "Response" : "this is a validate code response for id %s" % id}
 
 @router.get("/$lookup")
-def look_up(code: str | None = None, uri: str | None = None , version: str | None = None, coding: str | None = None, date: str  | None = None, displayLanguage: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
-    code_system_concept = concept_service.get_concept_by_code(code)
+def look_up(code: str | None = None, system: str | None = None , version: str | None = None, coding: str | None = None, date: str  | None = None, displayLanguage: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
     
-    return {
-        "resourceType" : "Parameters",
-        "parameter": [
-            {
-                "name" : "name",
-                "valueString": code_system_concept.name
-            },
-            {
-                "name": "version",
-                "valueString": version
-            },
-            {
-                "name": "display",
-                "valueString": code_system_concept.display
-            },
-            {
-                "name": "definition",
-                "valueString": code_system_concept.definition
-            },
-            {
-                "name": "designation",
-                "part": [
-                    {
-                        "name": "value",
-                        "valueString": "Test"
-                    }
-                ]
-            },
-            {
-                "name": "property",
-                "part": [
-                    {
-                        "name": "code",
-                        "valueString": "property_name"
+    if (code is not None and system is None):
+        return {
+                    "resourceType": "OperationOutcome",
+                    "id": "exception",
+                    "text": {
+                        "status": "additional",
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">The system parameter must be supplied if code is not empty.</div>"
                     },
+                    "issue": [
                     {
-                        "name": "value",
-                        "valueString": "value"
-                    },
-                    {
-                        "name": "description",
-                        "valueString": "description"
+                        "severity": "error",
+                        "code": "not-found",
+                        "details": {
+                            "text": "The system parameter must be supplied if code is not empty."
+                        }
                     }
-                ]
+                    ]
+                }    
+    
+    code_system_concept = concept_service.get_concept_by_code(code)
+    if (code_system_concept is not None):
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "name",
+                    "valueString": code_system_concept.name
+                },
+                {
+                    "name": "version",
+                    "valueString": version
+                },
+                {
+                    "name": "display",
+                    "valueString": code_system_concept.display
+                },
+                {
+                    "name": "definition",
+                    "valueString": code_system_concept.definition
+                },
+                {
+                    "name": "designation",
+                    "part": [
+                        {
+                            "name": "value",
+                            "valueString": "Test"
+                        }
+                    ]
+                },
+                {
+                    "name": "property",
+                    "part": [
+                        {
+                            "name": "code",
+                            "valueString": "property_name"
+                        },
+                        {
+                            "name": "value",
+                            "valueString": "value"
+                        },
+                        {
+                            "name": "description",
+                            "valueString": "description"
+                        }
+                    ]
+                }
+            ]
+        }
+    else:
+        return {
+            "resourceType": "OperationOutcome",
+            "id": "exception",
+            "text": {
+                "status": "additional",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Code %s not found</div>" % code
+            },
+            "issue": [
+            {
+                "severity": "error",
+                "code": "not-found",
+                "details": {
+                    "text": "Code %s not found" % code
+                }
             }
-        ]
-    }
+            ]
+        }
+    
 
 @router.get("/$validate")
 async def validate():
