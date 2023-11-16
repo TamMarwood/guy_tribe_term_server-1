@@ -1,32 +1,33 @@
 from typing import List, Optional, Union
 from fastapi import HTTPException, Depends
 from sqlalchemy.orm import Session
-from .schemas import CodeSystemConcept, CodeSystemConceptBase
-from .models import CodeSystemConcept as CodeSystemConceptDb
-from core.database import get_db
-
-class CodeSystemService:
-    def __init__(self, db: Session = Depends(get_db)):
-        self.db = db
-
-    # def get_items(self) -> List[Item]:
-    def get_items(self):
-        return {'aaa':'sss'}
-        # return self.db.query(Item).all()
+from sqlalchemy import Table
+from .schemas import Concept, ConceptBase
+from .models import Concept as CodeSystemConceptDb
+from core.database import get_db, Base, engine
 
 class CodeSystemConceptsService:
     def __init__(self, db: Session = Depends(get_db)):
         self.db = db
 
+    # Drop table and create again
+    def recreate_concept_table(self):
+        # Define the 'items' table
+        ConceptTable = Table('concept', Base.metadata)
+        ConceptTable.drop(bind=engine, checkfirst=True)
+        # Create the 'items' table if it doesn't exist
+        ConceptTable.create(bind=engine, checkfirst=True)
+        # self.db.commit()
+
     # def get_items(self) -> List[Item]:
-    def get_concepts(self) -> List[CodeSystemConcept]:
+    def get_concepts(self) -> List[Concept]:
         return self.db.query(CodeSystemConceptDb).all()
     
-    def get_concept_by_code(self, code) -> CodeSystemConcept:
-        return self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.code == code).first()
+    def get_concept_by_code(self, code) -> Concept:
+        return self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.concept_code == code).first()
 
-    def create_concept(self, concept: CodeSystemConceptBase) -> Union[CodeSystemConcept, None]:
-        db_concept = self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.code == concept.code).first()
+    def create_concept(self, concept: ConceptBase) -> Union[Concept, None]:
+        db_concept = self.db.query(CodeSystemConceptDb).filter(CodeSystemConceptDb.concept_code == concept.concept_code).first()
         if not db_concept:
             db_concept = CodeSystemConceptDb(**concept.dict())
             self.db.add(db_concept)

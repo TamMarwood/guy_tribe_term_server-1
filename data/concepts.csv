@@ -1,4 +1,56 @@
-code,display,name,definition
-12345,Diabetes,Diabetes Name,A group of metabolic diseases characterized by high blood sugar levels
-67890,Hypertension,Hypertension Name,"High blood pressure, a long-term medical condition"
-54321,Hyperlipidemia,Hyperlipidemia Name,Elevated levels of lipids (fats) in the blood
+concept_id,concept_name,domain_id,vocabulary_id,concept_class_id,standard_concept,concept_code,valid_start_date,valid_end_date
+1,Terminal Illness,Qualifier,ACD,Clinical Finding,Standard,1,15/11/2023,31/12/2099
+2,Incurable Illness,Qualifier,ACD,Clinical Finding,Non-standard,2,15/11/2023,31/12/2099
+3,Irreversible Illness,Qualifier,ACD,Clinical Finding,Non-standard,3,15/11/2023,31/12/2099
+4,Non-Terminal Illness,Qualifier,ACD,Clinical Finding,Non-standard,4,15/11/2023,31/12/2099
+5,Curable Illness,Qualifier,ACD,Clinical Finding,Non-standard,5,15/11/2023,31/12/2099
+6,Reversible Illness,Qualifier,ACD,Clinical Finding,Non-standard,6,15/11/2023,31/12/2099
+7,Renal dialysis,Instruction,ACD,Procedure,Standard,7,15/11/2023,31/12/2099
+8,Natural death,Qualifier,ACD,Observation,Standard,8,15/11/2023,31/12/2099
+9,Blood transfusion,Instruction,ACD,Procedure,Non-standard,9,15/11/2023,31/12/2099
+10,Tissue donation consent,Instruction,ACD,Doc Kind,Standard,10,15/11/2023,31/12/2099
+11,Special requests,Instruction,ACD,Procedure,Non-standard,11,15/11/2023,31/12/2099
+12,Intensive care unit,Instruction,ACD,Location,Standard,12,15/11/2023,31/12/2099
+13,Home,Instruction,ACD,Location,Standard,13,15/11/2023,31/12/2099
+14,Location hospital,Instruction,ACD,Location,Standard,14,15/11/2023,31/12/2099
+15,Spiritual or religious belief,Qualifier,ACD,Social Context,Standard,15,15/11/2023,31/12/2099
+16,Prognosis good,Qualifier,ACD,Clinical Finding,Standard,16,15/11/2023,31/12/2099
+17,Prognosis bad,Qualifier,ACD,Clinical Finding,Standard,17,15/11/2023,31/12/2099
+18,Respect,Qualifier,ACD,Main Heading,Non-standard,18,15/11/2023,31/12/2099
+19,Organ donation consent,Instruction,ACD,Doc Kind,Standard,19,15/11/2023,31/12/2099
+20,Person responsible,Qualifier,ACD,Social Context,Non-standard,20,15/11/2023,31/12/2099
+21,Spouse,Qualifier,ACD,Social Context,Non-standard,21,15/11/2023,31/12/2099
+22,Close Friend,Qualifier,ACD,Social Context,Non-standard,22,15/11/2023,31/12/2099
+23,Relative,Qualifier,ACD,Social Context,Non-standard,23,15/11/2023,31/12/2099
+24,Carer,Qualifier,ACD,Social Context,Non-standard,24,15/11/2023,31/12/2099
+25,Guardian,Qualifier,ACD,Social Context,Non-standard,25,15/11/2023,31/12/2099
+26,Enduring Power of attorney,Qualifier,ACD,Social Context,Non-standard,26,15/11/2023,31/12/2099
+27,Independence,Qualifier,ACD,Clinical Finding,Non-standard,27,15/11/2023,31/12/2099
+28,Able to feed self,Qualifier,ACD,Clinical Finding,Standard,28,15/11/2023,31/12/2099
+29,Able to wash self,Qualifier,ACD,Clinical Finding,Standard,29,15/11/2023,31/12/2099
+30,Does recognise familiar people,Qualifier,ACD,Clinical Finding,Standard,30,15/11/2023,31/12/2099
+31,Able to dress,Qualifier,ACD,Clinical Finding,Standard,31,15/11/2023,31/12/2099
+32,Able to move,Qualifier,ACD,Clinical Finding,Non-standard,32,15/11/2023,31/12/2099
+33,Able to walk,Qualifier,ACD,Clinical Finding,Standard,33,15/11/2023,31/12/2099
+34,Able to talk,Qualifier,ACD,Clinical Finding,Non-standard,34,15/11/2023,31/12/2099
+35,Able to communicate thoughts,Qualifier,ACD,Clinical Finding,Standard,35,15/11/2023,31/12/2099
+36,Uncertain,Instruction,ACD,Qualifier Value,Standard,36,15/11/2023,31/12/2099
+37,Jurisdiction Code,Qualifier,ACD,Qualifier Value,Non-standard,37,15/11/2023,31/12/2099
+38,Place of death,Instruction,ACD,Observable Entity,Standard,38,15/11/2023,31/12/2099
+39,Maintaining dignity,Qualifier,ACD,Procedure,Standard,39,15/11/2023,31/12/2099
+40,Surgery,Instruction,ACD,Procedure,Standard,40,15/11/2023,31/12/2099
+41,All available treatment,Instruction,ACD,Procedure,Non-standard,41,15/11/2023,31/12/2099
+42,Life sustaining measures,Instruction,ACD,Procedure,Non-standard,42,15/11/2023,31/12/2099
+43,Invasive ventilation,Instruction,ACD,Procedure,Non-standard,43,15/11/2023,31/12/2099
+44,Non invasive ventilation,Instruction,ACD,Procedure,Non-standard,44,15/11/2023,31/12/2099
+45,Artificial feeding,Instruction,ACD,Procedure,Non-standard,45,15/11/2023,31/12/2099
+46,Rehydration therapy,Instruction,ACD,Procedure,Standard,46,15/11/2023,31/12/2099
+47,Comfort,Instruction,ACD,Qualifier Value,Standard,47,15/11/2023,31/12/2099
+48,Signatures,Qualifier,ACD,Doc Kind,Non-standard,48,15/11/2023,31/12/2099
+49,Right to privacy maintained,Qualifier,ACD,Clinical Finding,Standard,49,15/11/2023,31/12/2099
+50,Impaired capacity,Qualifier,ACD,Clinical Finding,Non-standard,50,15/11/2023,31/12/2099
+51,Cultural needs,Qualifier,ACD,Social Context,Non-standard,51,15/11/2023,31/12/2099
+52,Normal state of mind,Qualifier,ACD,Clinical Finding,Standard,52,15/11/2023,31/12/2099
+53,Belief,Qualifier,ACD,Qualifier Value,Standard,53,15/11/2023,31/12/2099
+54,Life unbearable,Qualifier,ACD,Qualifier Value,Non-standard,54,15/11/2023,31/12/2099
+55,Life bearable,Qualifier,ACD,Qualifier Value,Non-standard,55,15/11/2023,31/12/2099
