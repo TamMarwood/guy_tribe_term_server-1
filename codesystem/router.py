@@ -79,13 +79,77 @@ async def subsumes(codeA: str | None = None, codeB: str | None = None, uri: str 
 
 
 @router.get("/$validate-code")
-def validate_code(url: str, codeSystem, code: str, version: str, display, coding: str, codeableConcept, date: str, abstract, displayLanguage: str):
-    return { "Response" : "this is a validate code response"}
-
+def validate_code(url: str | None = None, codeSystem: str | None = None, code: str | None = None, version: str | None = None, display: str | None = None, coding: str | None = None, codeableConcept: str | None = None, date: str | None = None, abstract: str | None = None, displayLanguage: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
+    code_system_concept = concept_service.get_concept_by_code(code)
+    if (code_system_concept is not None):
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "result",
+                    "valueString": True
+                },
+                {
+                    "name" : "code",
+                    "valueString": code
+                },
+                {
+                    "name": "display",
+                    "valueString": code_system_concept.concept_class_id
+                },
+                {
+                    "name": "definition",
+                    "valueString": code_system_concept.domain_id
+                }
+            ]
+        }
+    else:
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "result",
+                    "valueString": False
+                },
+                {
+                    "name" : "code",
+                    "valueString": code
+                },
+            ]
+        }
+    
 @router.get("/{id}/$validate-code")
-async def validate_code(id):
-    return { "Response" : "this is a validate code response for id %s" % id}
-
+async def validate_code(id, concept_service: CodeSystemConceptsService = Depends()):
+    code_system_concept = concept_service.get_concept_by_id(id)
+    if (code_system_concept is not None):
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "result",
+                    "valueString": True
+                },
+                {
+                    "name": "display",
+                    "valueString": code_system_concept.concept_class_id
+                },
+                {
+                    "name": "definition",
+                    "valueString": code_system_concept.domain_id
+                }
+            ]
+        }
+    else:
+        return {
+            "resourceType" : "Parameters",
+            "parameter": [
+                {
+                    "name" : "result",
+                    "valueString": False
+                },
+            ]
+        }
+    
 @router.get("/$lookup")
 def look_up(code: str | None = None, system: str | None = None , version: str | None = None, coding: str | None = None, date: str  | None = None, displayLanguage: str | None = None, useSupplement: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
 
