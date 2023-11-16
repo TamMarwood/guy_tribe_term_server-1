@@ -17,11 +17,12 @@ class Concept(ConceptBase):
         orm_mode = True
 
 class ConceptRelationshipBase(BaseModel):
-    concept_id_1: int
-    concept_id_2: int
-    relationship: str
+    concept_id_1: str
+    concept_id_2: str
+    relationship_type: str
 
 class ConceptRelationship(ConceptBase):
+    id: int
     class Config:
         orm_mode = True
 
@@ -67,7 +68,6 @@ class CodeSystem(CodeSystemBase):
     id: int
     class Config:
         orm_mode = True
-
 
 
 # class CodeSystem(Base):

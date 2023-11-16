@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 
 from .schemas import CodeSystemBase, ConceptBase, Concept
-from .services import CodeSystemConceptsService
+from .services import CodeSystemConceptsService, CodeSystemConceptRelationshipService
 from core.util import get_rows_from_csv
 
 router = APIRouter()
@@ -22,12 +22,12 @@ async def concepts(concept_service: CodeSystemConceptsService = Depends()):
     return concepts
 
 @router.get("/$subsumes")
-async def subsumes(code: str | None = None, uri: str | None = None, version: str | None = None, system: str | None = None, coding: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
+async def subsumes(codeA: str | None = None, codeB: str | None = None, system: str | None = None, version: str | None = None, codingA: str | None = None, codingB: str | None = None, service: CodeSystemConceptRelationshipService = Depends()):
+
+    concept_relationship = service.get_relationship_by_codeA_codeB(codeA, codeB)
+    if (concept_relationship is not None):
     
-    code_system_concept = concept_service.get_concept_by_code(code)
-    
-    if ((codeA is not None or codeB is not None) and system is not None):
-        if (relationship is "parent"):
+        if (concept_relationship.relationship_type == "Parent"):
             return {
                         "resourceType" : "Parameters",
                         "parameter" : [
@@ -37,7 +37,7 @@ async def subsumes(code: str | None = None, uri: str | None = None, version: str
                         }
                         ]
                     }
-        if (relationship is "child"):
+        if (concept_relationship.relationship_type == "Child"):
             return {
                         "resourceType" : "Parameters",
                         "parameter" : [
@@ -47,7 +47,7 @@ async def subsumes(code: str | None = None, uri: str | None = None, version: str
                         }
                         ]
                     }
-        if (relationship is "sibling"):
+        if (concept_relationship.relationship_type == "Sibling"):
             return {
                         "resourceType" : "Parameters",
                         "parameter" : [
@@ -67,26 +67,25 @@ async def subsumes(code: str | None = None, uri: str | None = None, version: str
                         }
                         ]
                     }
-            
     else:
         return {
-                    "resourceType": "OperationOutcome",
-                    "id": "exception",
-                    "text": {
-                        "status": "additional",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Version "XXX" for http://acme.com/fhir/CodeSystem/some-id is no longer available</div>"
-                    },
-                    "issue": [
-                        {
-                        "severity": "error",
-                        "code": "not-supported",
-                        "details": {
-                            "text": "Version "XXX" for http://acme.com/fhir/CodeSystem/some-id is no longer available"
-                        }
-                    }
-                    ]
+            "resourceType": "OperationOutcome",
+            "id": "exception",
+            "text": {
+                "status": "additional",
+                "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Relationship not found</div>"
+            },
+            "issue": [
+            {
+                "severity": "error",
+                "code": "not-found",
+                "details": {
+                    "text": "Relationship not found"
                 }
-
+            }
+            ]
+        }        
+    
 
 
 @router.get("/$validate-code")

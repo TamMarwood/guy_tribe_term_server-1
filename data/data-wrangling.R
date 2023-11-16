@@ -36,4 +36,16 @@ relationships_tidy <- d |>
   ) |> 
   filter(!relationship_type %in% c("", NA))
 
-write.csv(relationships_tidy, "relationships.csv", row.names = F)
+relationships_tidy_flipped <- relationships_tidy |> 
+  rename(
+    concept_id_1 = concept_id_2,
+    concept_id_2 = concept_id_1
+  ) |> 
+  mutate(relationship_type = case_when(
+    relationship_type == "Parent" ~ "Child",
+    relationship_type == "Child" ~ "Parent",
+    .default = relationship_type
+  ))
+
+bind_rows(relationships_tidy, relationships_tidy_flipped) |> 
+  write.csv("relationships.csv", row.names = F)

@@ -19,7 +19,7 @@ class Concept(DbModelToDictMixin,Base):
 class ConceptRelationship(DbModelToDictMixin,Base):
     __tablename__ = 'concept_relationship'
     
-    id = Column(Integer, primary_key=True, index=True)
-    concept_id_1 = Column(Integer)
-    concept_id_2 = Column(Integer)
-    relationship = Column(String)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    concept_id_1 = Column(String)
+    concept_id_2 = Column(String)
+    relationship_type = Column(String)
