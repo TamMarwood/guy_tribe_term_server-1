@@ -22,59 +22,70 @@ async def concepts(concept_service: CodeSystemConceptsService = Depends()):
     return concepts
 
 @router.get("/$subsumes")
-async def subsumes(codeA: str | None = None, codeB: str | None = None, uri: str | None = None, version: str | None = None, codingA: str | None = None, codingA: str | None = None):
-    {
-        "resourceType" : "Parameters",
-        "parameter" : [
-            {
-                "name value" : "system",
-                "valueUri value" : "URL"
-            },
-            {
-                "name value" : "version",
-                "valueUri value" : "URL"
-            },
-            {
-                "name value" : "codingA",
-                "valueCoding":
-                {
-                    "system value" : "URL",
-                    "code value" : "codeA"
-                }
-            },
-            {
-                "name value" : "codingB",
-                "valueCoding":
-                {
-                    "system value": "URL",
-                    "code value" : "codeB"
-                }
-            }
-        ]
-    }
-
+async def subsumes(code: str | None = None, uri: str | None = None, version: str | None = None, system: str | None = None, coding: str | None = None, concept_service: CodeSystemConceptsService = Depends()):
+    
     code_system_concept = concept_service.get_concept_by_code(code)
     
-    if ((codeA is not None or codeB is not None) and system is None):
+    if ((codeA is not None or codeB is not None) and system is not None):
+        if (relationship is "parent"):
+            return {
+                        "resourceType" : "Parameters",
+                        "parameter" : [
+                        {   
+                        "name" : "outcome",
+                        "valueCode" : "subsumes"
+                        }
+                        ]
+                    }
+        if (relationship is "child"):
+            return {
+                        "resourceType" : "Parameters",
+                        "parameter" : [
+                        {   
+                        "name" : "outcome",
+                        "valueCode" : "subsumed-by"
+                        }
+                        ]
+                    }
+        if (relationship is "sibling"):
+            return {
+                        "resourceType" : "Parameters",
+                        "parameter" : [
+                        {   
+                        "name" : "outcome",
+                        "valueCode" : "equivalent"
+                        }
+                        ]
+                    }
+        else:
+            return {
+                        "resourceType" : "Parameters",
+                        "parameter" : [
+                        {   
+                        "name" : "outcome",
+                        "valueCode" : "not-subsumed"
+                        }
+                        ]
+                    }
+            
+    else:
         return {
                     "resourceType": "OperationOutcome",
                     "id": "exception",
                     "text": {
                         "status": "additional",
-                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">The system parameter must be supplied if code is not empty.</div>"
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Version "XXX" for http://acme.com/fhir/CodeSystem/some-id is no longer available</div>"
                     },
                     "issue": [
-                    {
+                        {
                         "severity": "error",
-                        "code": "not-found",
+                        "code": "not-supported",
                         "details": {
-                            "text": "The system parameter must be supplied if code is not empty."
+                            "text": "Version "XXX" for http://acme.com/fhir/CodeSystem/some-id is no longer available"
                         }
                     }
                     ]
                 }
-    if ((codeA is not None or codeB is not None) and system is not None):
-        return 
 
 
 
