@@ -22,8 +22,61 @@ async def concepts(concept_service: CodeSystemConceptsService = Depends()):
     return concepts
 
 @router.get("/$subsumes")
-async def subsumes():
-    return None
+async def subsumes(codeA: str | None = None, codeB: str | None = None, uri: str | None = None, version: str | None = None, codingA: str | None = None, codingA: str | None = None):
+    {
+        "resourceType" : "Parameters",
+        "parameter" : [
+            {
+                "name value" : "system",
+                "valueUri value" : "URL"
+            },
+            {
+                "name value" : "version",
+                "valueUri value" : "URL"
+            },
+            {
+                "name value" : "codingA",
+                "valueCoding":
+                {
+                    "system value" : "URL",
+                    "code value" : "codeA"
+                }
+            },
+            {
+                "name value" : "codingB",
+                "valueCoding":
+                {
+                    "system value": "URL",
+                    "code value" : "codeB"
+                }
+            }
+        ]
+    }
+
+    code_system_concept = concept_service.get_concept_by_code(code)
+    
+    if ((codeA is not None or codeB is not None) and system is None):
+        return {
+                    "resourceType": "OperationOutcome",
+                    "id": "exception",
+                    "text": {
+                        "status": "additional",
+                        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">The system parameter must be supplied if code is not empty.</div>"
+                    },
+                    "issue": [
+                    {
+                        "severity": "error",
+                        "code": "not-found",
+                        "details": {
+                            "text": "The system parameter must be supplied if code is not empty."
+                        }
+                    }
+                    ]
+                }
+    if ((codeA is not None or codeB is not None) and system is not None):
+        return 
+
+
 
 @router.get("/$validate-code")
 def validate_code(url: str, codeSystem, code: str, version: str, display, coding: str, codeableConcept, date: str, abstract, displayLanguage: str):
