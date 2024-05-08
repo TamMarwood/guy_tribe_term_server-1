@@ -1,0 +1,25 @@
+Purpose of tribe
+
+1.	To establish a standard terminology dictionary for advanced care planning that is available on open source software and accompanied by a guidance document for future users of the terminology. 
+
+
+Deliverables
+
+1.	Public documentation of the terminology. To provide guidance to people who would like to get started using it. For example, it would need to explain the three classes and how to use them.  Importantly, also that the intended use of the terminology is not to redefine laws and morality, but to accurately record patients' advanced directives. Where needed, link to definitions of terms on OED, M-W or official government sites. 
+2.	Review the terminology structure - It is not too late to add or remove a class, or otherwise restructure the terminology. 
+3.	Continuing development of the server itself to make sure it uses an OMOP-like terminology structure (concept and concept_relationship table) and to make sure it complies with the requirements of a reference terminology server for HL7 FHIR. 
+
+
+Outcomes
+1.	Public documentation of terminology
+2.	Terminology structure reviewed and available for peer review/use?
+3.	Server using OMOP-like terminology structure and complies with reference terminology services for HL7 FHIR
+4.	Launch /present etc
+
+
+
+
+
+
+
+
